@@ -1,0 +1,230 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type MediaChannel {
+  id: Int!
+  name: String!
+  type: String!
+  contact_info: String!
+}
+
+type Placement {
+  id: Int!
+  ad_id: Int!
+  channel_id: Int!
+  placement_date: DateTime!
+  cost: Float!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Advertisement {
+  id: Int!
+  campaign_id: Int!
+  title: String!
+  content: String!
+  media_type: String!
+  target_audience: String!
+}
+
+type Status {
+  id: Int!
+  name: String!
+  table_name: String!
+}
+
+type Campaign {
+  id: Int!
+  client_id: Int!
+  name: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  budget: Float!
+  status_id: Int!
+  status: Status!
+}
+
+type Role {
+  id: Int!
+  name: String!
+}
+
+type Department {
+  id: Int!
+  name: String!
+}
+
+type Employee {
+  user_id: Int!
+  department_id: Int
+  hire_date: DateTime!
+  experience: String!
+}
+
+type Query {
+  statusList: [Status!]!
+  status(id: Int!): Status!
+  employees: [Employee!]!
+  employee(user_id: Int!): Employee!
+  roles: [Role!]!
+  role(id: Int!): Role!
+  departments: [Department!]!
+  department(id: Int!): Department!
+  campaigns: [Campaign!]!
+  campaign(id: Int!): Campaign!
+  advertisements: [Advertisement!]!
+  advertisement(id: Int!): Advertisement!
+  placements: [Placement!]!
+  placement(id: Int!): Placement!
+  mediaChannels: [MediaChannel!]!
+  mediaChannel(id: Int!): MediaChannel!
+}
+
+type Mutation {
+  createStatus(createStatusInput: CreateStatusInput!): Status!
+  updateStatus(updateStatusInput: UpdateStatusInput!): Status!
+  removeStatus(id: Int!): Boolean!
+  createEmployee(input: CreateEmployeeInput!): Employee!
+  updateEmployee(input: UpdateEmployeeInput!): Employee!
+  removeEmployee(user_id: Int!): Boolean!
+  createRole(input: CreateRoleInput!): Role!
+  updateRole(input: UpdateRoleInput!): Role!
+  removeRole(id: Int!): Boolean!
+  createDepartment(input: CreateDepartmentInput!): Department!
+  updateDepartment(input: UpdateDepartmentInput!): Department!
+  removeDepartment(id: Int!): Boolean!
+  assignRoleToEmployee(input: CreateEmployeeRoleInput!): Boolean!
+  removeRoleFromEmployee(employee_id: Int!, role_id: Int!): Boolean!
+  createCampaign(input: CreateCampaignInput!): Campaign!
+  updateCampaign(input: UpdateCampaignInput!): Campaign!
+  removeCampaign(id: Int!): Boolean!
+  createAdvertisement(input: CreateAdvertisementInput!): Advertisement!
+  updateAdvertisement(input: UpdateAdvertisementInput!): Advertisement!
+  removeAdvertisement(id: Int!): Boolean!
+  createPlacement(input: CreatePlacementInput!): Placement!
+  updatePlacement(input: UpdatePlacementInput!): Placement!
+  removePlacement(id: Int!): Boolean!
+  create(input: CreateMediaChannelInput!): MediaChannel!
+  update(input: UpdateMediaChannelInput!): MediaChannel!
+  remove(id: Int!): Boolean!
+}
+
+input CreateStatusInput {
+  name: String!
+  table_name: String!
+}
+
+input UpdateStatusInput {
+  name: String
+  table_name: String
+  id: Int!
+}
+
+input CreateEmployeeInput {
+  user_id: Int!
+  department_id: Int
+  hire_date: DateTime!
+  experience: String!
+}
+
+input UpdateEmployeeInput {
+  user_id: Int!
+  department_id: Int
+  hire_date: DateTime
+  experience: String
+}
+
+input CreateRoleInput {
+  name: String!
+}
+
+input UpdateRoleInput {
+  name: String
+  id: Int!
+}
+
+input CreateDepartmentInput {
+  name: String!
+}
+
+input UpdateDepartmentInput {
+  name: String
+  id: Int!
+}
+
+input CreateEmployeeRoleInput {
+  employee_id: Int!
+  role_id: Int!
+}
+
+input CreateCampaignInput {
+  client_id: Int!
+  name: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  budget: Float!
+  status_id: Int!
+}
+
+input UpdateCampaignInput {
+  client_id: Int
+  name: String
+  start_date: DateTime
+  end_date: DateTime
+  budget: Float
+  status_id: Int
+  id: Int!
+}
+
+input CreateAdvertisementInput {
+  campaign_id: Int!
+  title: String!
+  content: String!
+  media_type: String!
+  target_audience: String!
+  status_id: Int!
+}
+
+input UpdateAdvertisementInput {
+  campaign_id: Int
+  title: String
+  content: String
+  media_type: String
+  target_audience: String
+  status_id: Int
+  id: Int!
+}
+
+input CreatePlacementInput {
+  ad_id: Int!
+  channel_id: Int!
+  placement_date: DateTime!
+  cost: Float!
+  status_id: Int!
+}
+
+input UpdatePlacementInput {
+  ad_id: Int
+  channel_id: Int
+  placement_date: DateTime
+  cost: Float
+  status_id: Int
+  id: Int!
+}
+
+input CreateMediaChannelInput {
+  name: String!
+  type: String!
+  contact_info: String!
+}
+
+input UpdateMediaChannelInput {
+  name: String
+  type: String
+  contact_info: String
+  id: Int!
+}
