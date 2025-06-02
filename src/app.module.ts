@@ -30,6 +30,14 @@ import { MediaChannelModule } from './media-channel/media-channel.module';
 import { PerformanceMetricsModule } from './performance-metrics/performance-metrics.module';
 import { MediaChannel } from './media-channel/models/media-channel.model';
 import { PerformanceMetric } from './performance-metrics/models/performance-metric.model';
+import { MeetingsModule } from './meetings/meetings.module';
+import { Meeting } from './meetings/models/meeting.model';
+import { PaymentsModule } from './payments/payments.module';
+import { InvoicesModule } from './invoices/invoices.module';
+import { PaymentMethodModule } from './payment_method/payment_method.module';
+import { Payment } from './payments/models/payment.model';
+import { PaymentMethod } from './payment_method/models/payment_method.model';
+import { Invoice } from './invoices/models/invoice.model';
 
 @Module({
   imports: [
@@ -57,6 +65,10 @@ import { PerformanceMetric } from './performance-metrics/models/performance-metr
         Placement,
         MediaChannel,
         PerformanceMetric,
+        Meeting,
+        Payment,
+        Invoice,
+        PaymentMethod,
       ],
       autoLoadModels: true,
       sync: {
@@ -84,6 +96,10 @@ import { PerformanceMetric } from './performance-metrics/models/performance-metr
     PlacementsModule,
     MediaChannelModule,
     PerformanceMetricsModule,
+    MeetingsModule,
+    PaymentsModule,
+    InvoicesModule,
+    PaymentMethodModule,
   ],
   controllers: [],
   providers: [MailService],

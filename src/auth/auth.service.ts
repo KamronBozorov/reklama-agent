@@ -43,8 +43,6 @@ export class AuthService {
 
       const userCandidate = await this.userModel.findOne({ where: { email } });
 
-      console.log(userCandidate);
-
       if (userCandidate) throw new ConflictException('User already exists');
 
       const user = await this.userModel.create(dto, { transaction });
@@ -69,7 +67,7 @@ export class AuthService {
       transaction.commit();
       return returnData;
     } catch (error) {
-      console.log('Error occurred:', error);
+      console.error('Error occurred:', error);
       transaction.rollback();
       throw new BadRequestException('Error');
     }
@@ -166,7 +164,7 @@ export class AuthService {
 
       return returnData;
     } catch (error) {
-      console.log('Error occurred:', error);
+      console.error('Error occurred:', error);
       transaction.rollback();
       throw new BadRequestException('Error');
     }

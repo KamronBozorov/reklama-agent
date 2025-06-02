@@ -8,6 +8,7 @@ import {
   Delete,
   Res,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpClientDto } from './dto/sign-up.client.dto';
@@ -21,6 +22,8 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
+import { AdminGuards } from 'src/common/guards/role.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @ApiTags('Auth - Ro‘yxatdan o‘tish va Kirish')
 @Controller('auth')
@@ -43,6 +46,8 @@ export class AuthController {
     return await this.authService.signUpEmployee(dto);
   }
 
+  @Roles('admin', 'hello')
+  @UseGuards(AdminGuards)
   @Post('client/sign-in')
   @ApiOperation({ summary: 'Mijoz tizimga kirishi' })
   @ApiBody({ type: SignInClientDto })

@@ -3,6 +3,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -10,6 +11,7 @@ import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Client } from 'src/clients/models/client.model';
 import { Status } from 'src/status/models/status.model';
 import { User } from 'src/users/models/user.model';
+import { Meeting } from 'src/meetings/models/meeting.model';
 
 interface ICampaignCreationAttr {
   client_id: number;
@@ -59,4 +61,7 @@ export class Campaign extends Model<Campaign, ICampaignCreationAttr> {
 
   @BelongsTo(() => Client)
   client: Client;
+
+  @HasMany(() => Meeting)
+  meetings: Meeting[];
 }
