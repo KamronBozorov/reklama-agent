@@ -46,8 +46,6 @@ export class AuthController {
     return await this.authService.signUpEmployee(dto);
   }
 
-  @Roles('admin', 'hello')
-  @UseGuards(AdminGuards)
   @Post('client/sign-in')
   @ApiOperation({ summary: 'Mijoz tizimga kirishi' })
   @ApiBody({ type: SignInClientDto })

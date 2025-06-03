@@ -6,14 +6,23 @@ import {
   Param,
   Patch,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { AdvertisementsService } from './advertisements.service';
 import { CreateAdvertisementDto } from './dto/create-advertisement.dto';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { Advertisement } from './models/advertisement.model';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @ApiTags('Reklamalar')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('accessToken')
 @Controller('advertisements')
 export class AdvertisementsController {
   constructor(private readonly service: AdvertisementsService) {}

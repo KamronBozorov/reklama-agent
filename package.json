@@ -39,13 +39,16 @@
     "graphql": "^16.11.0",
     "handlebars": "^4.7.8",
     "mongoose": "^8.14.3",
+    "nest-winston": "^1.10.2",
     "nestjs-telegraf": "^2.9.1",
     "otp-generator": "^4.0.1",
     "pg": "^8.15.6",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "sequelize": "^6.37.7",
-    "sequelize-typescript": "^2.1.6"
+    "sequelize-typescript": "^2.1.6",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",

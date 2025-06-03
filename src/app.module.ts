@@ -38,12 +38,20 @@ import { PaymentMethodModule } from './payment_method/payment_method.module';
 import { Payment } from './payments/models/payment.model';
 import { PaymentMethod } from './payment_method/models/payment_method.model';
 import { Invoice } from './invoices/models/invoice.model';
+import { WinstonModule } from 'nest-winston';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
+    WinstonModule.forRoot({}),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+    }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',

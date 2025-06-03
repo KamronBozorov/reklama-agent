@@ -69,7 +69,7 @@ export class AuthService {
     } catch (error) {
       console.error('Error occurred:', error);
       transaction.rollback();
-      throw new BadRequestException('Error');
+      throw error;
     }
   }
 
@@ -110,7 +110,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       is_active: user.is_active,
-      role: 'client',
+      role: ['client'],
     };
 
     const tokens = await this.generateTokens(payload);
@@ -155,7 +155,7 @@ export class AuthService {
       );
 
       const returnData = {
-        message: `Email - ${email} - signed up successfully`,
+        message: `You have signed up successfully ID ${candidateEmployee.user_id}`,
       };
 
       await transaction.commit();
@@ -166,7 +166,7 @@ export class AuthService {
     } catch (error) {
       console.error('Error occurred:', error);
       transaction.rollback();
-      throw new BadRequestException('Error');
+      throw error;
     }
   }
 

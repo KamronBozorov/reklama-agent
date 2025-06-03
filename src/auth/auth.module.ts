@@ -7,7 +7,6 @@ import { MailModule } from 'src/mail/mail.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from 'src/users/models/user.model';
 import { Client } from 'src/clients/models/client.model';
-import { JwtModule } from '@nestjs/jwt';
 import { Employee } from 'src/employees/models/employee.model';
 import { Department } from 'src/deparment/models/deparment.model';
 
@@ -15,7 +14,6 @@ import { Department } from 'src/deparment/models/deparment.model';
   imports: [
     SequelizeModule.forFeature([User, Client, Employee, Department]),
     MailModule,
-    JwtModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
