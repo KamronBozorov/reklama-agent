@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -25,4 +26,10 @@ export class EmployeeRole extends Model<
   @ForeignKey(() => Role)
   @Column({ type: DataType.INTEGER })
   declare role_id: number;
+
+  @BelongsTo(() => Role)
+  role: Role;
+
+  @BelongsTo(() => Employee)
+  employee: Employee;
 }

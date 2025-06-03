@@ -3,6 +3,9 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Status } from './models/status.model';
 import { CreateStatusDto } from './dto/create-status.dto';
 import { UpdateStatusDto } from './dto/update-status.dto';
+import { CampaignsService } from 'src/campaigns/campaigns.service';
+import { AdvertisementsService } from 'src/advertisements/advertisements.service';
+import { PlacementsService } from 'src/placements/placements.service';
 
 @Injectable()
 export class StatusService {
@@ -13,11 +16,13 @@ export class StatusService {
   }
 
   async findAll(): Promise<Status[]> {
-    return await this.statusModel.findAll();
+    return await this.statusModel.findAll({ include: { all: true } });
   }
 
   async findOne(id: number): Promise<Status> {
-    const status = await this.statusModel.findByPk(id);
+    const status = await this.statusModel.findByPk(id, {
+      include: { all: true },
+    });
     if (!status) {
       throw new NotFoundException(`Status with id ${id} not found`);
     }

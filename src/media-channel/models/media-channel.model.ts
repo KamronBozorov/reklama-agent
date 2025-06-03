@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Placement } from 'src/placements/models/placement.model';
 
 interface IMediaChannelCreationAttr {
   name: string;
@@ -28,4 +29,7 @@ export class MediaChannel extends Model<
   @Field()
   @Column(DataType.STRING)
   declare contact_info: string;
+
+  @HasMany(() => Placement)
+  placements: Placement[];
 }

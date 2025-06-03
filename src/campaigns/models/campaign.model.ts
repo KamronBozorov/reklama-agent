@@ -12,6 +12,7 @@ import { Client } from 'src/clients/models/client.model';
 import { Status } from 'src/status/models/status.model';
 import { User } from 'src/users/models/user.model';
 import { Meeting } from 'src/meetings/models/meeting.model';
+import { Invoice } from 'src/invoices/models/invoice.model';
 
 interface ICampaignCreationAttr {
   client_id: number;
@@ -64,4 +65,7 @@ export class Campaign extends Model<Campaign, ICampaignCreationAttr> {
 
   @HasMany(() => Meeting)
   meetings: Meeting[];
+
+  @HasMany(() => Invoice)
+  invoices: Invoice[];
 }

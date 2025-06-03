@@ -13,21 +13,22 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RoleGuard } from 'src/common/guards/role.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 
-@Roles('superadmin')
-@UseGuards(RoleGuard)
-@UseGuards(JwtAuthGuard)
 @ApiTags('Xodim va rollar')
+@UseGuards(RoleGuard)
 @Controller('employee-role')
+@UseGuards(JwtAuthGuard)
 export class EmployeeRoleController {
   constructor(private readonly employeeRoleService: EmployeeRoleService) {}
 
   @Post()
+  @Roles('superadmin')
   @ApiOperation({ summary: 'Xodimga rol biriktirish' })
   assignRole(@Body() dto: CreateEmployeeRoleDto) {
     return this.employeeRoleService.assignRole(dto);
   }
 
   @Delete()
+  @Roles('superadmin')
   @ApiOperation({ summary: 'Xodimdan rolni olib tashlash' })
   @ApiQuery({ name: 'employee_id', type: Number })
   @ApiQuery({ name: 'role_id', type: Number })

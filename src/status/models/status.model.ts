@@ -10,6 +10,8 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Campaign } from 'src/campaigns/models/campaign.model';
 import { Advertisement } from 'src/advertisements/models/advertisement.model';
 import { Placement } from 'src/placements/models/placement.model';
+import { Payment } from 'src/payments/models/payment.model';
+import { Invoice } from 'src/invoices/models/invoice.model';
 
 interface IStatusCreationAttr {
   name: string;
@@ -43,4 +45,10 @@ export class Status extends Model<Status, IStatusCreationAttr> {
 
   @HasMany(() => Placement)
   placements: Placement[];
+
+  @HasMany(() => Payment)
+  payments: Payment[];
+
+  @HasMany(() => Invoice)
+  invoices: Invoice[];
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateEmployeeDto {
   @ApiProperty({ example: 1 })
@@ -7,9 +7,9 @@ export class CreateEmployeeDto {
   user_id: number;
 
   @ApiProperty({ example: 2, required: false })
-  @IsOptional()
+  @IsNotEmpty()
   @IsInt()
-  department_id?: number;
+  department_id: number;
 
   @ApiProperty({ example: '2024-01-15' })
   @IsDateString()

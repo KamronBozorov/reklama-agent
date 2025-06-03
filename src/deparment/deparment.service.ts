@@ -13,11 +13,11 @@ export class DepartmentsService {
   }
 
   async findAll(): Promise<Department[]> {
-    return this.model.findAll();
+    return this.model.findAll({ include: { all: true } });
   }
 
   async findOne(id: number): Promise<Department> {
-    const dept = await this.model.findByPk(id);
+    const dept = await this.model.findByPk(id, { include: { all: true } });
     if (!dept) throw new NotFoundException('Bo‘lim topilmadi');
     return dept;
   }

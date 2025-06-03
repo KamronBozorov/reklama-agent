@@ -16,11 +16,13 @@ export class PaymentMethodService {
   }
 
   findAll() {
-    return this.paymentMethodRepo.findAll();
+    return this.paymentMethodRepo.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {
-    const method = await this.paymentMethodRepo.findByPk(id);
+    const method = await this.paymentMethodRepo.findByPk(id, {
+      include: { all: true },
+    });
     if (!method) throw new NotFoundException('To‘lov usuli topilmadi');
     return method;
   }

@@ -13,11 +13,11 @@ export class RolesService {
   }
 
   async findAll(): Promise<Role[]> {
-    return this.model.findAll();
+    return this.model.findAll({ include: { all: true } });
   }
 
   async findOne(id: number): Promise<Role> {
-    const role = await this.model.findByPk(id);
+    const role = await this.model.findByPk(id, { include: { all: true } });
     if (!role) throw new NotFoundException('Rol topilmadi');
     return role;
   }

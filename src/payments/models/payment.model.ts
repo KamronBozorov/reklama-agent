@@ -1,12 +1,14 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   BelongsTo,
+  BelongsToAssociation,
   Column,
   DataType,
   ForeignKey,
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Invoice } from 'src/invoices/models/invoice.model';
 import { PaymentMethod } from 'src/payment_method/models/payment_method.model';
 import { Status } from 'src/status/models/status.model';
 
@@ -26,6 +28,7 @@ export class Payment extends Model<Payment, IPaymentCreationAttr> {
   declare id: number;
 
   @Field(() => Int)
+  @ForeignKey(() => Invoice)
   @Column({ type: DataType.INTEGER, allowNull: false })
   declare invoice_id: number;
 
@@ -52,4 +55,7 @@ export class Payment extends Model<Payment, IPaymentCreationAttr> {
 
   @BelongsTo(() => PaymentMethod)
   paymentMethod: PaymentMethod;
+
+  @BelongsTo(() => Invoice)
+  invoice: Invoice;
 }

@@ -15,6 +15,7 @@ type Placement {
   channel_id: Int!
   placement_date: DateTime!
   cost: Float!
+  status_id: Int!
 }
 
 """
@@ -29,6 +30,33 @@ type Advertisement {
   content: String!
   media_type: String!
   target_audience: String!
+}
+
+type Invoice {
+  id: Int!
+  client_id: Int!
+  campaign_id: Int!
+  amount: Float!
+  issue_date: String!
+  due_date: String!
+  status_id: Int!
+}
+
+type PaymentMethod {
+  """To'lov turi ID si"""
+  id: Int!
+
+  """To'lov turi nomi"""
+  name: String!
+}
+
+type Payment {
+  id: Int!
+  invoice_id: Int!
+  method_id: Int!
+  status_id: Int!
+  payment_date: DateTime!
+  amount: Int!
 }
 
 type Status {
@@ -73,42 +101,15 @@ type Employee {
   experience: String!
 }
 
-type PaymentMethod {
-  """To'lov turi ID si"""
-  id: Int!
-
-  """To'lov turi nomi"""
-  name: String!
-}
-
-type Payment {
-  id: Int!
-  invoice_id: Int!
-  method_id: Int!
-  status_id: Int!
-  payment_date: DateTime!
-  amount: Int!
-}
-
-type Invoice {
-  id: Int!
-  client_id: Int!
-  campaign_id: Int!
-  amount: Float!
-  issue_date: String!
-  due_date: String!
-  status_id: Int!
-}
-
 type Query {
   statusList: [Status!]!
   status(id: Int!): Status!
   employees: [Employee!]!
   employee(user_id: Int!): Employee!
-  roles: [Role!]!
-  role(id: Int!): Role!
   departments: [Department!]!
   department(id: Int!): Department!
+  roles: [Role!]!
+  role(id: Int!): Role!
   campaigns: [Campaign!]!
   campaign(id: Int!): Campaign!
   advertisements: [Advertisement!]!
@@ -138,12 +139,12 @@ type Mutation {
   createEmployee(input: CreateEmployeeInput!): Employee!
   updateEmployee(input: UpdateEmployeeInput!): Employee!
   removeEmployee(user_id: Int!): Boolean!
-  createRole(input: CreateRoleInput!): Role!
-  updateRole(input: UpdateRoleInput!): Role!
-  removeRole(id: Int!): Boolean!
   createDepartment(input: CreateDepartmentInput!): Department!
   updateDepartment(input: UpdateDepartmentInput!): Department!
   removeDepartment(id: Int!): Boolean!
+  createRole(input: CreateRoleInput!): Role!
+  updateRole(input: UpdateRoleInput!): Role!
+  removeRole(id: Int!): Boolean!
   assignRoleToEmployee(input: CreateEmployeeRoleInput!): Boolean!
   removeRoleFromEmployee(employee_id: Int!, role_id: Int!): Boolean!
   createCampaign(input: CreateCampaignInput!): Campaign!
@@ -200,20 +201,20 @@ input UpdateEmployeeInput {
   experience: String
 }
 
-input CreateRoleInput {
-  name: String!
-}
-
-input UpdateRoleInput {
-  name: String
-  id: Int!
-}
-
 input CreateDepartmentInput {
   name: String!
 }
 
 input UpdateDepartmentInput {
+  name: String
+  id: Int!
+}
+
+input CreateRoleInput {
+  name: String!
+}
+
+input UpdateRoleInput {
   name: String
   id: Int!
 }

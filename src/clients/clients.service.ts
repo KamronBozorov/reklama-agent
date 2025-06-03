@@ -17,11 +17,13 @@ export class ClientsService {
   }
 
   async findAll(): Promise<Client[]> {
-    return await this.clientModel.findAll();
+    return await this.clientModel.findAll({ include: { all: true } });
   }
 
   async findOne(id: number): Promise<Client> {
-    const client = await this.clientModel.findByPk(id);
+    const client = await this.clientModel.findByPk(id, {
+      include: { all: true },
+    });
     if (!client) {
       throw new NotFoundException(`Mijoz ID ${id} topilmadi`);
     }

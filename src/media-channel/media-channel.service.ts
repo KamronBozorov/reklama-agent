@@ -13,11 +13,11 @@ export class MediaChannelsService {
   }
 
   findAll() {
-    return this.model.findAll();
+    return this.model.findAll({ include: { all: true } });
   }
 
   async findOne(id: number) {
-    const channel = await this.model.findByPk(id);
+    const channel = await this.model.findByPk(id, { include: { all: true } });
     if (!channel) throw new NotFoundException('Channel topilmadi');
     return channel;
   }

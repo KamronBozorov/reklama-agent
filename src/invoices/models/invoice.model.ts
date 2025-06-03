@@ -5,11 +5,14 @@ import {
   Model,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { ObjectType, Field, Int, Float } from '@nestjs/graphql';
 import { Client } from 'src/clients/models/client.model';
 import { Campaign } from 'src/campaigns/models/campaign.model';
 import { Status } from 'src/status/models/status.model';
+import { Payment } from 'src/payments/models/payment.model';
+import { PathItemObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 interface IInvoiceCreationAttr {
   client_id: number;
@@ -55,11 +58,14 @@ export class Invoice extends Model<Invoice, IInvoiceCreationAttr> {
   declare status_id: number;
 
   @BelongsTo(() => Client)
-  declare client: Client;
+  client: Client;
 
   @BelongsTo(() => Campaign)
-  declare campaign: Campaign;
+  campaign: Campaign;
 
   @BelongsTo(() => Status)
-  declare status: Status;
+  status: Status;
+
+  @HasMany(() => Payment)
+  payments: Payment[];
 }

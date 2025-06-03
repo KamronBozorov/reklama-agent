@@ -44,6 +44,7 @@ export class Placement extends Model<Placement, IPlacementCreationAttr> {
   @Column(DataType.DECIMAL)
   declare cost: number;
 
+  @Field(() => Int)
   @ForeignKey(() => Status)
   @Column(DataType.INTEGER)
   status_id: number;

@@ -10,7 +10,7 @@ export class CreateEmployeeInput {
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsInt()
-  department_id?: number;
+  department_id: number;
 
   @Field()
   @IsDateString()
