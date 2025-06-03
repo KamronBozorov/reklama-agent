@@ -6,13 +6,26 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { Role } from './models/role.model';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RoleGuard } from 'src/common/guards/role.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
+@ApiBearerAuth('accessToken')
+@Roles('superadmin')
+@UseGuards(RoleGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Rollar')
 @Controller('roles')
 export class RolesController {

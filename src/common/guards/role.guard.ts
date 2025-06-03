@@ -3,14 +3,13 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { ROLES } from 'src/constants';
 
 @Injectable()
-export class AdminGuards implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(
@@ -25,7 +24,7 @@ export class AdminGuards implements CanActivate {
     const userRoles = req.user?.roles;
 
     if (!userRoles) {
-      throw new UnauthorizedException('You need to login');
+      throw new ForbiddenException('Access denied');
     }
 
     if (userRoles.includes('superadmin')) {

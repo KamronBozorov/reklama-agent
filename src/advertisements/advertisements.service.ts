@@ -11,6 +11,7 @@ export class AdvertisementsService {
   ) {}
 
   async create(dto: CreateAdvertisementDto): Promise<Advertisement> {
+    const { status_id, campaign_id } = dto;
     return this.model.create(dto);
   }
 

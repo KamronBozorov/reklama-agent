@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PerformanceMetricsService } from './performance-metrics.service';
 import { CreatePerformanceMetricDto } from './dto/create-performance-metric.dto';
@@ -16,15 +17,23 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { PerformanceMetric } from './models/performance-metric.model';
+import { RoleGuard } from 'src/common/guards/role.guard';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @ApiTags('Performance Metrics')
+@ApiBearerAuth('accessToken')
 @Controller('performance-metrics')
+@UseGuards(RoleGuard)
+@UseGuards(JwtAuthGuard)
 export class PerformanceMetricsController {
   constructor(private readonly service: PerformanceMetricsService) {}
 
   @Post()
+  @Roles('superadmin', 'analyst')
   @ApiOperation({ summary: 'Yangi metrik yaratish' })
   @ApiBody({ type: CreatePerformanceMetricDto })
   @ApiResponse({ status: 201, type: PerformanceMetric })
@@ -33,6 +42,7 @@ export class PerformanceMetricsController {
   }
 
   @Get()
+  @Roles('superadmin', 'analyst', 'manager')
   @ApiOperation({ summary: 'Barcha metriklar' })
   @ApiResponse({ status: 200, type: [PerformanceMetric] })
   findAll() {
@@ -40,6 +50,7 @@ export class PerformanceMetricsController {
   }
 
   @Get(':id')
+  @Roles('superadmin', 'analyst', 'manager')
   @ApiOperation({ summary: 'ID orqali metrik olish' })
   @ApiParam({ name: 'id', type: Number })
   @ApiResponse({ status: 200, type: PerformanceMetric })
@@ -48,6 +59,7 @@ export class PerformanceMetricsController {
   }
 
   @Patch(':id')
+  @Roles('superadmin', 'analyst')
   @ApiOperation({ summary: 'Metrikni yangilash' })
   @ApiBody({ type: UpdatePerformanceMetricDto })
   update(@Param('id') id: string, @Body() dto: UpdatePerformanceMetricDto) {
@@ -55,7 +67,8 @@ export class PerformanceMetricsController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Metrikni o‘chirish' })
+  @Roles('superadmin', 'analyst')
+  @ApiOperation({ summary: "Metrikni o'chirish" })
   remove(@Param('id') id: string) {
     return this.service.remove(+id);
   }

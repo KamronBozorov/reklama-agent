@@ -1,8 +1,21 @@
-import { Controller, Post, Delete, Body, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Delete,
+  Body,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { EmployeeRoleService } from './employee-role.service';
 import { CreateEmployeeRoleDto } from './dto/create-employee-role.dto';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { RoleGuard } from 'src/common/guards/role.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
+@Roles('superadmin')
+@UseGuards(RoleGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Xodim va rollar')
 @Controller('employee-role')
 export class EmployeeRoleController {

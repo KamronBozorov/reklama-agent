@@ -22,7 +22,6 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
-import { AdminGuards } from 'src/common/guards/role.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 
 @ApiTags('Auth - Ro‘yxatdan o‘tish va Kirish')

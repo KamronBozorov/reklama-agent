@@ -18,7 +18,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Invertar')
+    .setTitle('AddAgency')
     .setDescription('AddAgency API documentation')
     .setVersion('1.0')
     .addBearerAuth(
@@ -34,8 +34,8 @@ async function bootstrap() {
     )
     .build();
 
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, documentFactory);
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 22222);
 }
