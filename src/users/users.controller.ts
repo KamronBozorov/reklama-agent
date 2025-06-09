@@ -24,6 +24,7 @@ import { RoleGuard } from 'src/common/guards/role.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { SelfGuard } from '../common/guards/self.guard';
 import { Use } from 'nestjs-telegraf';
+import { OverdueDto } from './dto/overdue.dto';
 
 @ApiTags('Users')
 @ApiBearerAuth('accessToken')
@@ -56,6 +57,27 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
+  }
+
+  @Post('getTotalCost')
+  @ApiOperation({ summary: 'Har bir mijoz uchun to‘langan umumiy summa' })
+  getTotalCost() {
+    return this.usersService.getTotal();
+  }
+
+  @Post('overdueInvoices')
+  @ApiOperation({ summary: 'Har bir mijoz uchun to‘langan umumiy summa' })
+  overdueInvoices(@Body() dto: OverdueDto) {
+    return this.usersService.overdueInvoices(dto);
+  }
+
+  @Post('employeeRoles')
+  @ApiOperation({
+    summary:
+      'Har bir xodimga biriktirilgan rollar ro‘yxati (pivot table bilan)',
+  })
+  employeeRoles() {
+    return this.usersService.employeeRoles();
   }
 
   @Patch(':id')

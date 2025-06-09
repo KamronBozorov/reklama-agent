@@ -54,6 +54,12 @@ export class CampaignsController {
     return this.service.findOne(+id);
   }
 
+  @Post('high-ctr')
+  @ApiOperation({ summary: 'Eng samarali reklama kampaniyalarini topish' })
+  highCtr() {
+    return this.service.highCtr();
+  }
+
   @Patch(':id')
   @Roles('superadmin', 'manager')
   @ApiOperation({ summary: 'Kampaniyani yangilash' })
