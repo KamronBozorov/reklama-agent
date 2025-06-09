@@ -16,7 +16,7 @@ export class SelfGuard implements CanActivate {
       return true;
     }
 
-    if (user.id === requestedUserId) {
+    if (user.sub === +requestedUserId) {
       return true;
     }
 

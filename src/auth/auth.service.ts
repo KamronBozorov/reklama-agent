@@ -18,8 +18,11 @@ import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import { Employee } from 'src/employees/models/employee.model';
 import { SignUpEmployeeDto } from './dto/sign-up.employee.dto';
-import { retry } from 'rxjs';
 import { Department } from 'src/deparment/models/deparment.model';
+import * as bcrypt from 'bcrypt';
+import { ResetPasswordEmployeeDto } from './dto/reset-password.employee.dto';
+import { retry } from 'rxjs';
+import { Message } from 'nestjs-telegraf';
 
 @Injectable()
 export class AuthService {
@@ -44,8 +47,12 @@ export class AuthService {
       const userCandidate = await this.userModel.findOne({ where: { email } });
 
       if (userCandidate) throw new ConflictException('User already exists');
+      const hashedPass = await bcrypt.hash(password, 10);
 
-      const user = await this.userModel.create(dto, { transaction });
+      const user = await this.userModel.create(
+        { ...dto, password: hashedPass },
+        { transaction },
+      );
 
       const candidateClient = await this.clientModel.create(
         { ...dto, user_id: user.id },
@@ -102,6 +109,8 @@ export class AuthService {
 
     if (!user) throw new NotFoundException('User not found');
 
+    if (!user.is_active) throw new UnauthorizedException('User not active');
+
     const client = await this.clientModel.findByPk(user.id);
 
     if (!client) throw new NotFoundException('Client not found');
@@ -145,7 +154,12 @@ export class AuthService {
 
       if (userCandidate) throw new ConflictException('User already exists');
 
-      const user = await this.userModel.create({ ...dto }, { transaction });
+      const hashedPass = await bcrypt.hash(password, 10);
+
+      const user = await this.userModel.create(
+        { ...dto, password: `check__reset${hashedPass}` },
+        { transaction },
+      );
 
       const candidateEmployee = await this.employeeModel.create(
         { ...dto, user_id: user.id },
@@ -182,6 +196,16 @@ export class AuthService {
 
     if (!user) throw new NotFoundException('User not found');
 
+    if (user.password.startsWith('check__reset')) {
+      throw new UnauthorizedException('Reset your password');
+    }
+
+    const isValidPass = await bcrypt.compare(password, user.password);
+
+    if (!isValidPass) {
+      throw new UnauthorizedException('Email or password incorrect');
+    }
+
     const employee = await this.employeeModel.findByPk(user.id, {
       include: { all: true },
     });
@@ -210,6 +234,37 @@ export class AuthService {
     return {
       message: 'You have successfully loged in',
       accessToken: tokens.accessToken,
+    };
+  }
+
+  async resetPassword(dto: ResetPasswordEmployeeDto) {
+    const { email, old_password, new_password, confirm_password } = dto;
+
+    if (new_password !== confirm_password)
+      throw new UnprocessableEntityException('Passwords do not match');
+
+    const user = await this.userModel.findOne({ where: { email } });
+
+    if (!user) throw new NotFoundException('User not found');
+
+    const employee = await this.employeeModel.findByPk(user.id);
+    let validPass = false;
+
+    if (user.password.startsWith('check__reset') && employee) {
+      const realHash = user.password.split('check__reset')[1];
+      validPass = await bcrypt.compare(old_password, realHash);
+    } else {
+      validPass = await bcrypt.compare(old_password, user.password);
+    }
+
+    if (!validPass)
+      throw new UnauthorizedException('Email or password incorrect');
+
+    user.password = await bcrypt.hash(new_password, 10);
+    await user.save();
+
+    return {
+      message: 'Password has been changed successfully',
     };
   }
 

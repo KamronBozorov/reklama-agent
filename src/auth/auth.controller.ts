@@ -21,8 +21,13 @@ import {
   ApiResponse,
   ApiBody,
   ApiParam,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { RoleGuard } from 'src/common/guards/role.guard';
+import { ResetPasswordEmployeeDto } from './dto/reset-password.employee.dto';
+import { warn } from 'console';
 
 @ApiTags('Auth - Ro‘yxatdan o‘tish va Kirish')
 @Controller('auth')
@@ -38,6 +43,10 @@ export class AuthController {
   }
 
   @Post('employee/sign-up')
+  @Roles('superadmin')
+  @UseGuards(RoleGuard)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('accessToken')
   @ApiOperation({ summary: 'Xodim ro‘yxatdan o‘tishi' })
   @ApiBody({ type: SignUpEmployeeDto })
   @ApiResponse({ status: 201, description: 'Xodim ro‘yxatdan o‘tdi' })
@@ -73,6 +82,12 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Email faollashtirildi' })
   async activate(@Param('link') link: string) {
     return await this.authService.activate(link);
+  }
+
+  @ApiOperation({ description: "Parolni o'zgartirish" })
+  @Post('reset-password')
+  async resetPassword(@Body() dto: ResetPasswordEmployeeDto) {
+    return await this.authService.resetPassword(dto);
   }
 
   @Post('log-out')

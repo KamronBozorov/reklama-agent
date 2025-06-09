@@ -8,7 +8,12 @@ import {
 } from '@nestjs/common';
 import { EmployeeRoleService } from './employee-role.service';
 import { CreateEmployeeRoleDto } from './dto/create-employee-role.dto';
-import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiQuery,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RoleGuard } from 'src/common/guards/role.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
@@ -17,6 +22,7 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 @UseGuards(RoleGuard)
 @Controller('employee-role')
 @UseGuards(JwtAuthGuard)
+@ApiBearerAuth('accessToken')
 export class EmployeeRoleController {
   constructor(private readonly employeeRoleService: EmployeeRoleService) {}
 

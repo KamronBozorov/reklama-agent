@@ -39,7 +39,6 @@ export class StatusController {
   }
 
   @Get()
-  @Roles('superadmin', 'manager', 'analyst')
   @ApiOperation({ summary: 'Barcha statuslarni olish' })
   @ApiResponse({ status: 200, type: [Status] })
   findAll() {
@@ -47,25 +46,22 @@ export class StatusController {
   }
 
   @Get(':id')
-  @Roles('superadmin', 'manager', 'analyst')
-  @ApiOperation({ summary: "ID bo'yicha statusni olish" })
+  @ApiOperation({ summary: 'ID bo‘yicha statusni olish' })
   @ApiResponse({ status: 200, type: Status })
   findOne(@Param('id') id: string) {
     return this.statusService.findOne(+id);
   }
 
   @Patch(':id')
-  @Roles('superadmin', 'manager')
-  @ApiOperation({ summary: "ID bo'yicha statusni yangilash" })
+  @ApiOperation({ summary: 'ID bo‘yicha statusni yangilash' })
   @ApiResponse({ status: 200, type: Status })
   update(@Param('id') id: string, @Body() updateStatusDto: UpdateStatusDto) {
     return this.statusService.update(+id, updateStatusDto);
   }
 
   @Delete(':id')
-  @Roles('superadmin')
-  @ApiOperation({ summary: "ID bo'yicha statusni o'chirish" })
-  @ApiResponse({ status: 200, description: "Status muvaffaqiyatli o'chirildi" })
+  @ApiOperation({ summary: 'ID bo‘yicha statusni o‘chirish' })
+  @ApiResponse({ status: 200, description: 'Status muvaffaqiyatli o‘chirildi' })
   remove(@Param('id') id: string) {
     return this.statusService.remove(+id);
   }
